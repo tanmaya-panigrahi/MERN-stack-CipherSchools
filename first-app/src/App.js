@@ -1,38 +1,28 @@
-// import { Component } from "react";
-// import { useContext } from "react";
+
+import AddTask from "./components/Addtask";
 import ToDoScreen from "./screens/ToDoSceen";
-import Addtask from "./components/Addtask";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { TaskProvider } from "./context/taskContext";
+import {TaskProvider} from "./context/taskContext";
 
-
-
-// class App extends Component {
-//   render(){
-//     return (
-//       <ToDoScreen />
-//     );
-//   }
-// }
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <ToDoScreen />
-  },
-  {
-    path: "/add-task",
-    element: <Addtask />
-  }
-]);
-const App = () => {
-  // const { taskList, addNewTask } = useContext(taskContext);
+    {
+        path:'/',
+        element: <ToDoScreen/>
+    },
+    {
+        path:"/add-task",
+        element: <AddTask/>
+    }
+])
+function App(){
 
-
-  return (
-    <TaskProvider>
-      <RouterProvider router={router} />;
-    </TaskProvider>
-  );
+    // const {taskList, addNewTask}=useContext(TaskContext);
+    return(
+        <TaskProvider>
+        <RouterProvider router={router}/>
+        </TaskProvider>
+    )
 }
+
 export default App;

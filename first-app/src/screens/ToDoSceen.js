@@ -1,75 +1,46 @@
 import { useContext } from "react";
 import Task from "../components/Task";
-import taskContext from "../context/taskContext";
-import {useNavigate } from "react-router-dom";
-// import Addtask from "../components/Addtask";
+import TaskContext from "../context/taskContext";
+import { useNavigate } from "react-router-dom";
+import AddTask from "../components/Addtask";
 
-// import { Component } from "react";
+function ToDoScreen() {
+  const { taskList } = useContext(TaskContext);
+  const { addNewTask } = useContext(TaskContext);
+  const navigate = useNavigate();
 
-// class ToDoScreen extends Component {
-//     state={
-//         taskCount: 0,
-//     }
-//     taskCount = 0;
-//     render() {
-//         return (
-//             <div className="screen">
-//                 <h1 className="ui heading center">ToDo List App</h1>
-//                 <div>
-//                     <button onClick={
-//                         ()=>{
-//                             this.setState({...this.state,
-//                                 taskCount:this.state.taskCount+1
-//                             });
-//                             console.log(this.state.taskCount);
-
-//                         }
-//                     } className="ui secondary button">Add Task</button>
-
-//                     <p>The number of tasks are: {this.state.taskCount} </p>
-//                 </div>
-//             </div>
-//         )
-//     }
-// }
-
-const ToDoScreen = () => {
-
-    const {taskList} = useContext(taskContext);
-
-    const navigate=useNavigate();
-
-    // let addNewTask=(task)=>{
-    //     setTaskList([...taskList,{...task,createdDate:new Date()}]);
-    // }
-
-    return (
-        <div className="screen">
-            <h1 className="ui heading center">ToDo List App</h1>
-            <div>
-                <button onClick={
-                    () => {
-                        navigate("/add-task");
-                        
-                    }} className="ui secondary button">Add Task</button>
-
-                {/* <p>The number of tasks are: {taskList.length} </p> */}
-                <section>
-
-                    <div className="ui cards">
-
-                        {
-                            taskList.map((task,index) => (
-                                <Task task={task} key={task.taskID}/>
-                            ))
-                        }
-                    </div>
-                </section>
-
-            </div>
-           {/* <Addtask onSubmit={addNewTask}/> */}
+  return (
+    <>
+      <div className="screen">
+        <h1 className="ui heading center">To Do List</h1>
+        <div
+          onClick={(e) => {
+            navigate("add-task");
+          }}
+          className="ui secondary button"
+        >
+          Add Task
         </div>
-
-    )
+        <section>
+          <div className="ui cards">
+            {taskList.map((task) => (
+              <Task task={task} key={task.taskId} />
+            ))}
+          </div>
+        </section>
+        <AddTask
+          onSubmit={addNewTask}
+          validator={({ title, description }) => {
+            if (title?.length && description?.length) {
+              alert("Is valid");
+              return true;
+            }
+            alert(" valid");
+            return false;
+          }}
+        />
+      </div>
+    </>
+  );
 }
 export default ToDoScreen;

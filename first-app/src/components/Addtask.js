@@ -1,48 +1,70 @@
 import { useContext, useState } from "react";
-import taskContext from "../context/taskContext";
+import React from "react";
+import TaskContext from "../context/taskContext";
 import { useNavigate } from "react-router-dom";
 
-const Addtask = () => {
-    const navigate=useNavigate();
-    const {addNewTask}=useContext(taskContext);
-    const [task,setTask]=useState({
-        title:"",
-        description:"",
-    })
-    let handleInputChange=(e)=>{
-        setTask({...task,[e.target.name]:e.target.value,});
-    }
+const AddTask = ({ validator }) => {
+  const { addNewTask } = useContext(TaskContext);
 
-    let onFormSubmit=(e)=>{
-        e.preventDefault();
-        // console.log(task);
-        addNewTask(task);
-        setTask({});
-        navigate("/");
-    };
-    
-    return (
+  const navigate = useNavigate();
 
-        <section className="screen">
-            <h3 className="ui heading center">Add New Task</h3>
-            <div className="ui form">
+  const [task, setTask] = useState({
+    title: "",
+    description: "",
+  });
 
-                <form onSubmit={onFormSubmit}>
-                    <div className="field">
-                        <label>Title</label>
-                        <input type="text" placeholder="Task Title" name="title" onChange={handleInputChange} value={task.title}/>
-                    </div>
-                    <div className="field">
-                        <label>Description</label>
-                        <textarea rows="2" placeholder="Task Description" name="description" onChange={handleInputChange} value={task.description}></textarea>
-                    </div>
-                    <button type="submit" className="ui primary button" >
-                        Submit
-                    </button>
-                </form>
-            </div>
-        </section>
-    )
-}
+  let handelInputChange = (e) => {
+    setTask({
+      ...task,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-export default Addtask;
+  let onFormSubmit = (e) => {
+    e.preventDefault();
+    console.log(task);
+    validator(task);
+    addNewTask(task);
+    // setTask({});
+    navigate("/");
+  };
+
+  return (
+    <section className="screen">
+      <h3 className="center">Add New Task</h3>
+      <div className="ui form">
+        <form onSubmit={onFormSubmit}>
+          <div className="field">
+            <label>Title</label>
+            <input
+              type="text"
+              spellCheck={false}
+              data-ms-editor={true}
+              placeholder="Task title"
+              name="title"
+              onChange={handelInputChange}
+              value={task.title}
+            />
+          </div>
+          <div className="field">
+            <label>Description</label>
+            <textarea
+              rows="2"
+              spellCheck={false}
+              data-ms-editor={true}
+              placeholder="Description"
+              name="description"
+              onChange={handelInputChange}
+              value={task.description}
+            />
+          </div>
+          <button type="submit" className="ui primary button">
+            Submit
+          </button>
+        </form>
+      </div>
+    </section>
+  );
+};
+
+export default AddTask;
